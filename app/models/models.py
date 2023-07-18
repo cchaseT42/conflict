@@ -43,34 +43,65 @@ class Server(db.Model):
     __tablename__ = 'servers'
 
     id = db.Column(db.Integer, primary_key=True)
+
     name = db.Column(db.String(40), nullable=False, unique=True)
+
     img_url = db.Column(db.String(255), nullable=False, unique=True)
+
     owner_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('users.id')), nullable=False)
+
+
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'img_url': self.img_url,
+            'owner_id': self.owner_id
+        }
 
 class Member(db.Model):
     __tablename__ = 'members'
 
     id = db.Column(db.Integer, primary_key=True)
+
     user_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('users.id')), nullable=False)
+
     server_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('servers.id')), nullable=False)
+
+    servers = db.relationship("Server", back_populates="members")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'server_id': self.server_id,
+            'servers': self.servers.to_dict()
+        }
 
 class Channel(db.Model):
     __tablename__ = 'channels'
 
     id = db.Column(db.Integer, primary_key=True)
+
     name = db.Column(db.String(40), nullable=False, unique=True)
+
     server_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('servers.id')), nullable=False)
+
 
 class Message(db.Model):
     __tablename__ = 'messages'
 
     id = db.Column(db.Integer, primary_key=True)
+
     message = db.Column(db.String(2000), nullable=False)
+
     channel_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('channels.id')), nullable=False)
+
     owner_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('users.id')), nullable=False)
