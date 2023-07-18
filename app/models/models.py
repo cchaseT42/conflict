@@ -42,6 +42,9 @@ class User(db.Model, UserMixin):
 class Server(db.Model):
     __tablename__ = 'servers'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String(40), nullable=False, unique=True)
@@ -51,6 +54,10 @@ class Server(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('users.id')), nullable=False)
 
+    members = db.relationship("Member", back_populates="server")
+    channels = db.relationship("Channel", back_populates="server")
+    # message = db.relationship("Message", back_populates="server")
+
 
 
     def to_dict(self):
@@ -58,11 +65,16 @@ class Server(db.Model):
             'id': self.id,
             'name': self.name,
             'img_url': self.img_url,
-            'owner_id': self.owner_id
+            'owner_id': self.owner_id,
+            'members': [member.to_dict() for member in self.members],
+            'channels': [channel.to_dict() for channel in self.channels],
         }
 
 class Member(db.Model):
     __tablename__ = 'members'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
 
@@ -85,6 +97,9 @@ class Member(db.Model):
 class Channel(db.Model):
     __tablename__ = 'channels'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String(40), nullable=False, unique=True)
@@ -92,9 +107,22 @@ class Channel(db.Model):
     server_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('servers.id')), nullable=False)
 
+    messages = db.relationship("Message", back_populates="channel")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "server_id": self.server_id,
+            "messages": [message.to_dict() for message in self.messages]
+        }
+
 
 class Message(db.Model):
     __tablename__ = 'messages'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
 
@@ -105,3 +133,7 @@ class Message(db.Model):
 
     owner_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('users.id')), nullable=False)
+    def to_dict(self):
+        return {
+
+        }
