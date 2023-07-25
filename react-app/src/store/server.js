@@ -1,4 +1,5 @@
 const LOAD = 'server/getServer'
+const LOAD_JOINED = 'server/getServers'
 const CREATE = 'server/createServer'
 const DELETE = 'server/deleteServer'
 const UPDATE = 'server/updateServer'
@@ -7,6 +8,13 @@ const load = (server) => {
   return {
     type: LOAD,
     server
+  }
+}
+
+const load_joined = (servers) => {
+  return {
+    type: LOAD_JOINED,
+    servers
   }
 }
 
@@ -32,10 +40,18 @@ const update = (server) => {
 }
 
 export const getServer = (id) => async dispatch => {
-  const response = await fetch(`/api/server/${id}`)
+  const response = await fetch(`/api/servers/${id}`)
   if (response.ok) {
     const server = await response.json()
     dispatch(load(server))
+  }
+}
+
+export const getServers = (user_id) => async dispatch => {
+  const response = await fetch(`/api/members/${user_id}`)
+  if (response.ok) {
+    const servers = await response.json()
+    dispatch(load_joined(servers))
   }
 }
 
@@ -80,6 +96,14 @@ const servers = (state = initialState, action) => {
   switch (action.type){
     case LOAD: {
 
+    }
+    case LOAD_JOINED: {
+      const newState = {}
+      let joinedArr = action.servers.servers
+      joinedArr.forEach(server => {
+        newState[server.id] = server
+      })
+      return newState
     }
     case CREATE: {
 
