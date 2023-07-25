@@ -21,6 +21,8 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
     pfp_url = db.Column(db.String(255), nullable=True)
 
+    messages = db.relationship("Message", back_populates="user")
+
     @property
     def password(self):
         return self.hashed_password
@@ -83,14 +85,14 @@ class Member(db.Model):
     server_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('servers.id')), nullable=False)
 
-    servers = db.relationship("Server", back_populates="members")
+    server = db.relationship("Server", back_populates="members")
 
     def to_dict(self):
         return {
             'id': self.id,
             'user_id': self.user_id,
             'server_id': self.server_id,
-            'servers': self.servers.to_dict()
+            'servers': self.server.to_dict()
         }
 
 class Channel(db.Model):
@@ -106,7 +108,9 @@ class Channel(db.Model):
     server_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('servers.id')), nullable=False)
 
-    messages = db.relationship("Message", back_populates="channel")
+    messages = db.relationship("Message", back_populates="channels")
+
+    server = db.relationship("Server", back_populates="channels")
 
     def to_dict(self):
         return {
@@ -132,6 +136,8 @@ class Message(db.Model):
 
     owner_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('users.id')), nullable=False)
+
+    channels = db.relationship("Channel", back_populates="messages")
 
     user = db.relationship("User", back_populates="messages")
     def to_dict(self):
