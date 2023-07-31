@@ -101,7 +101,6 @@ const servers = (state = initialState, action) => {
     case LOAD_JOINED: {
       const newState = {}
       let joinedArr = action.servers.joined_servers
-      console.log(action.servers)
       joinedArr.forEach(server => {
         newState[server.id] = server
       })
