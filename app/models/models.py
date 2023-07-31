@@ -67,7 +67,7 @@ class Server(db.Model):
             'name': self.name,
             'img_url': self.img_url,
             'owner_id': self.owner_id,
-            'members': [member.to_dict() for member in self.members],
+            # 'members': [member.to_dict() for member in self.members],
             'channels': [channel.to_dict() for channel in self.channels],
         }
 
