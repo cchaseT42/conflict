@@ -48,6 +48,7 @@ export const getServer = (id) => async dispatch => {
 }
 
 export const getServers = (user_id) => async dispatch => {
+  console.log(user_id)
   const response = await fetch(`/api/members/${user_id}`)
   if (response.ok) {
     const servers = await response.json()
@@ -56,7 +57,7 @@ export const getServers = (user_id) => async dispatch => {
 }
 
 export const createServer = (data) => async dispatch => {
-  const response = await fetch(`/api/server/create`, {
+  const response = await fetch(`/api/servers/create`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json'
@@ -69,7 +70,7 @@ export const createServer = (data) => async dispatch => {
 }
 
 export const updateServer = (id, data) => async dispatch => {
-  const response = await fetch(`/api/server/${id}`, {
+  const response = await fetch(`/api/servers/${id}`, {
     method: 'put',
     headers: {
       'Content-Type': 'application/json'
@@ -99,7 +100,8 @@ const servers = (state = initialState, action) => {
     }
     case LOAD_JOINED: {
       const newState = {}
-      let joinedArr = action.servers.servers
+      let joinedArr = action.servers.joined_servers
+      console.log(action.servers)
       joinedArr.forEach(server => {
         newState[server.id] = server
       })

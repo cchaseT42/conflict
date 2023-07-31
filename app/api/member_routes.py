@@ -4,7 +4,7 @@ from app.models import Member, Server, db
 
 member_routes = Blueprint("members", __name__)
 
-@member_routes.route('/')
+@member_routes.route('/<int:user_id>')
 @login_required
 def joinedServers(user_id):
     joined = db.session.query(Member).filter_by(user_id = int(user_id))
