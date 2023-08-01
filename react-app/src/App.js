@@ -6,6 +6,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import Server from "./components/Server/server";
+import CreateServer from "./components/CreateServer";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,6 +28,9 @@ function App() {
           </Route>
           <Route path='/servers'>
             <Server/>
+          </Route>
+          <Route path='/create'>
+            <CreateServer/>
           </Route>
         </Switch>
       )}
