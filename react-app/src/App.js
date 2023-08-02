@@ -7,6 +7,7 @@ import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import Server from "./components/Server/server";
 import CreateServer from "./components/ServerCreate";
+import UpdateServer from "./components/ServerUpdate";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <Route path='/create'>
             <CreateServer/>
+          </Route>
+          <Route path='/update'>
+            <UpdateServer/>
           </Route>
         </Switch>
       )}
