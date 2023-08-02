@@ -6,7 +6,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import Server from "./components/Server/server";
-import CreateServer from "./components/CreateServer";
+import CreateServer from "./components/ServerCreate";
 
 function App() {
   const dispatch = useDispatch();
