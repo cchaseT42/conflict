@@ -96,7 +96,8 @@ let initialState = {}
 const servers = (state = initialState, action) => {
   switch (action.type){
     case LOAD: {
-
+      const newState = [action.server]
+      return newState
     }
     case LOAD_JOINED: {
       const newState = {}
@@ -107,13 +108,19 @@ const servers = (state = initialState, action) => {
       return newState
     }
     case CREATE: {
-
+      const newState = {...state}
+      newState[action.server.id] = action.server
+      return newState
     }
     case UPDATE: {
-
+      const newState = {...state}
+      newState[action.server.id] = action.server
+      return newState
     }
     case DELETE: {
-
+      const newState = {...state}
+      delete newState[action.server.id]
+      return newState
     }
     default: return state
   }
