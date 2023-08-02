@@ -28,3 +28,18 @@ def create_server():
         return new_server.to_dict(), 201
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@server_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def update_server(id):
+    server = Server.query.get(id)
+
+    form = ServerForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        server.name = form.data['name']
+        server.img_url = form.data['img_url']
+        db.session.commit()
+        return server.to_dict(), 201
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
