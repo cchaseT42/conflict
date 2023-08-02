@@ -12,6 +12,12 @@ def servers(owner_id):
     servers = db.session.query(Server).filter_by(owner_id = int(owner_id))
     return {'joined_servers': [servers.to_dict() for server in servers]}, 200
 
+@server_routes.route('/<int:id>')
+@login_required
+def server(id):
+    server = Server.query.get(id)
+    return server.to_dict(), 200
+
 
 @server_routes.route('/create', methods=['POST'])
 @login_required
