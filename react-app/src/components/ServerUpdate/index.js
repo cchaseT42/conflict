@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useState } from "react"
-import { updateServer } from "../../store/server"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import { updateServer } from "../../store/server"
 
 function UpdateServer(){
   const dispatch = useDispatch()
