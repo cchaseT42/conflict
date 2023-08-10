@@ -5,7 +5,7 @@ import { updateServer } from "../../store/server"
 
 function UpdateServer(){
   const dispatch = useDispatch()
-  const user = useSelector(state.session.user)
+  const user = useSelector(state => state.session.user)
 
   let placeholderId = 1
 
