@@ -19,11 +19,21 @@ def seed_users():
         name="testServer", img_url="testurl", owner_id=1
     )
 
+    server2 = Server(
+        name="testServer2", img_url="testurl2", owner_id=2
+    )
+
     member1 = Member(
         user_id=1, server_id=1
     )
     member2 = Member(
         user_id=2, server_id=1
+    )
+    member3 = Member(
+        user_id=1, server_id=2
+    )
+    member4 = Member(
+        user_id=2, server_id=2
     )
 
     channel1 = Channel(
@@ -39,8 +49,11 @@ def seed_users():
     )
 
     db.session.add(server1)
+    db.session.add(server2)
     db.session.add(member1)
     db.session.add(member2)
+    db.session.add(member3)
+    db.session.add(member4)
     db.session.add(channel1)
     db.session.add(channel2)
     db.session.add(message1)
