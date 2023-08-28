@@ -105,6 +105,7 @@ const servers = (state = initialState, action) => {
       joinedArr.forEach(server => {
         newState[server.id] = server
       })
+      console.log(newState, "apple")
       return newState
     }
     case CREATE: {
