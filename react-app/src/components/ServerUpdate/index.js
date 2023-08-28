@@ -13,6 +13,7 @@ function UpdateServer(){
   const [name, setName] = useState("")
   const [img, setImg] = useState("")
   const [validationErrors, setValidationErrors] = useState([])
+
   const error = []
 
   const handleSubmit = async (e) => {
@@ -22,6 +23,7 @@ function UpdateServer(){
     if (name.length > 40) error.push("Name must be less than 40 characters long.")
 
     if(error.length) return setValidationErrors(error)
+
 
     const payload = {
       owner_id: user.id,
