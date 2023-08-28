@@ -8,21 +8,20 @@ function UpdateServer(){
   const user = useSelector(state => state.session.user)
 
   let placeholderId = 1
-
   const history = useHistory
 
   const [name, setName] = useState("")
   const [img, setImg] = useState("")
   const [validationErrors, setValidationErrors] = useState([])
-  const errors = []
+  const error = []
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name) errors.push("Name field is required")
-    if (name.length > 40) errors.push("Name must be less than 40 characters long.")
+    if (!name) error.push("Name field is required")
+    if (name.length > 40) error.push("Name must be less than 40 characters long.")
 
-    if(errors.length) return setValidationErrors(errors)
+    if(error.length) return setValidationErrors(error)
 
     const payload = {
       owner_id: user.id,
