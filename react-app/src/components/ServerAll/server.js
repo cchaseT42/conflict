@@ -10,7 +10,7 @@ function Server(){
   const dispatch = useDispatch()
   const user = useSelector(state => state.session.user)
   const servers = useSelector(state => state.servers)
-  const server = useSelector(state => state.server)
+  let server = useSelector(state => state.server)
   const serversArr = Object.values(servers)
   const [currServer, setCurrServer] = useState(null)
   console.log(currServer)
@@ -23,7 +23,7 @@ function Server(){
 
   useEffect(() => {
     dispatch(getServer(currServer))
-  }, [dispatch])
+  }, [currServer])
 
   return (
     <div className='container'>

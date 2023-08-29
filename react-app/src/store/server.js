@@ -35,7 +35,6 @@ export const getServer = (id) => async dispatch => {
   const response = await fetch(`/api/servers/${id}`)
   if (response.ok) {
     const server = await response.json()
-    console.log(server, "dispatched")
     dispatch(load(server))
   }
 }
@@ -81,7 +80,6 @@ const server = (state = initialState, action) => {
   switch (action.type){
     case LOAD: {
       const newState = [action.server]
-      console.log(newState, "AAAAAAAAAAAA")
       return newState
     }
     case CREATE: {

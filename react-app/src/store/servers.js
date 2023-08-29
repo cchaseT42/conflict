@@ -12,7 +12,6 @@ export const getServers = (user_id) => async dispatch => {
   const response = await fetch(`/api/members/${user_id}`)
   if (response.ok) {
     const servers = await response.json()
-    console.log(servers, "dispatchedServers")
     dispatch(load_joined(servers))
   }
 }
