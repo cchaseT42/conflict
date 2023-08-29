@@ -5,7 +5,7 @@ import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
-import Server from "./components/Server/server";
+import Server from "./components/ServerAll/server";
 import CreateServer from "./components/ServerCreate";
 import UpdateServer from "./components/ServerUpdate";
 
