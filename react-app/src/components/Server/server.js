@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import { getServers } from "../../store/server"
 import { getServer } from "../../store/server"
 
@@ -9,6 +10,7 @@ function Server(){
   const user = useSelector(state => state.session.user)
   const servers = useSelector(state => state.server)
   const serversArr = Object.values(servers)
+  const [server, setServer] = useState("")
   console.log(serversArr)
 
   useEffect(() => {
@@ -23,7 +25,9 @@ function Server(){
           {serversArr.map((server) => {
             return (
               <li key={server.id}>
+                <Link to={`/servers/${server.id}`}>
                 <p>{server.servers.img_url}</p>
+                </Link>
               </li>
             )
           })}
