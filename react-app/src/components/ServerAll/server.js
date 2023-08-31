@@ -10,11 +10,11 @@ function Server(){
   const dispatch = useDispatch()
   const user = useSelector(state => state.session.user)
   const servers = useSelector(state => state.servers)
-  let server = useSelector(state => state.server)
+  let server = useSelector(state => state.server[0])
   const serversArr = Object.values(servers)
   const [currServer, setCurrServer] = useState(null)
   console.log(currServer)
-  console.log(server)
+  console.log(server[0], "channels")
   console.log(serversArr, "arr")
 
   useEffect(() => {
@@ -37,7 +37,15 @@ function Server(){
             )
           })}
         </div>
-        <div className="channels">
+        <div className="server_info">
+          <p>{server.name}</p>
+          {server.channels.map((channel) => {
+            return (
+              <li key={channel.id}>
+                <p>{channel.name}</p>
+              </li>
+            )
+          })}
         </div>
       </div>
     </div>
