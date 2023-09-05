@@ -10,12 +10,14 @@ function Server(){
   const dispatch = useDispatch()
   const user = useSelector(state => state.session.user)
   const servers = useSelector(state => state.servers)
-  let server = useSelector(state => state.server[0])
+  let server = useSelector(state => state.server[0] || null)
   const serversArr = Object.values(servers)
   const [currServer, setCurrServer] = useState(null)
   console.log(currServer)
-  console.log(server[0], "channels")
   console.log(serversArr, "arr")
+  let server_selected = false
+
+  if (server) server_selected = true
 
   useEffect(() => {
     dispatch(getServers(user.id))
@@ -38,8 +40,8 @@ function Server(){
           })}
         </div>
         <div className="server_info">
-          <p>{server.name}</p>
-          {server.channels.map((channel) => {
+          <p>{server_selected && <p>{server.name}</p>}</p>
+          {server_selected && server.channels.map((channel) => {
             return (
               <li key={channel.id}>
                 <p>{channel.name}</p>
