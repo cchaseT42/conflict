@@ -3,19 +3,26 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { getServers } from "../../store/servers"
 import { getServer } from "../../store/server"
-// import ServerSingle from "../../components/Server"
+import { getChannel } from "../../store/channel"
 
 function Server(){
 
   const dispatch = useDispatch()
   const user = useSelector(state => state.session.user)
   const servers = useSelector(state => state.servers)
-  let server = useSelector(state => state.server[0])
+  let server = useSelector(state => state.server[0] || null)
+  let channel = useSelector(state => state.channel[0] || null)
   const serversArr = Object.values(servers)
+  console.log(server)
+  console.log(channel)
   const [currServer, setCurrServer] = useState(null)
+  const [currChannel, setCurrChannel] = useState(null)
+  console.log(currChannel)
   console.log(currServer)
-  console.log(server[0], "channels")
   console.log(serversArr, "arr")
+  let server_selected = false
+
+  if (server) server_selected = true
 
   useEffect(() => {
     dispatch(getServers(user.id))
@@ -24,6 +31,10 @@ function Server(){
   useEffect(() => {
     dispatch(getServer(currServer))
   }, [currServer])
+
+  useEffect(() => {
+    dispatch(getChannel(currChannel))
+  }, [currChannel])
 
   return (
     <div className='container'>
@@ -38,11 +49,20 @@ function Server(){
           })}
         </div>
         <div className="server_info">
-          <p>{server.name}</p>
-          {server.channels.map((channel) => {
+          <p>{server_selected && <p>{server.name}</p>}</p>
+          {server_selected && server.channels.map((channel) => {
             return (
-              <li key={channel.id}>
-                <p>{channel.name}</p>
+              <li key={channel.id} onClick={(e) => setCurrChannel(channel.id)}>
+                <p>{channel.name}, {channel.id}</p>
+              </li>
+            )
+          })}
+        </div>
+        <div className="channel_messages">
+          {channel && channel.messages.map((message) => {
+            return (
+              <li key={message.id}>
+                <p>{message.user.username}: {message.message}</p>
               </li>
             )
           })}
