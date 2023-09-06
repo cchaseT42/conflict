@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
   session,
   server,
   servers,
-  channel
+  channel,
 });
 
 

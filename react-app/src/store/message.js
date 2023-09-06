@@ -35,3 +35,12 @@ export const createMessage = (payload) => async dispatch => {
   dispatch(create(newMessage))
   return newMessage
 }
+
+let initialState = {}
+
+const messages = (state = initialState, action) => {
+  switch(action.type){
+  }
+}
+
+export default messages

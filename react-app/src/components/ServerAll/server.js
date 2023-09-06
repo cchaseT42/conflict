@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { getServers } from "../../store/servers"
 import { getServer } from "../../store/server"
 import { getChannel } from "../../store/channel"
+import { createMessage } from "../../store/message"
 
 function Server(){
 
