@@ -13,13 +13,8 @@ function Server(){
   let server = useSelector(state => state.server[0] || null)
   let channel = useSelector(state => state.channel[0] || null)
   const serversArr = Object.values(servers)
-  console.log(server)
-  console.log(channel)
   const [currServer, setCurrServer] = useState(null)
   const [currChannel, setCurrChannel] = useState(null)
-  console.log(currChannel)
-  console.log(currServer)
-  console.log(serversArr, "arr")
   let server_selected = false
 
   if (server) server_selected = true
