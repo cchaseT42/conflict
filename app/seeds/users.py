@@ -37,11 +37,15 @@ def seed_users():
     )
 
     channel1 = Channel(
-        name="testchannel", server_id=1
+        id=1, name="testchannel", server_id=1
     )
 
     channel2 = Channel(
-        name="testchannel2", server_id=1
+        id=2, name="testchannel2", server_id=1
+    )
+
+    channel3 = Channel(
+        id=3, name="testchannel3", server_id=2
     )
 
     message1= Message(
@@ -56,6 +60,7 @@ def seed_users():
     db.session.add(member4)
     db.session.add(channel1)
     db.session.add(channel2)
+    db.session.add(channel3)
     db.session.add(message1)
     db.session.commit()
 
