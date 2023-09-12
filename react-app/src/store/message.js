@@ -23,7 +23,7 @@ const update = (message) => {
   }
 }
 
-export const createMessage = (payload) => async dispatch => {
+export const createMessage = (data) => async dispatch => {
   const response = await fetch(`/api/messages/create`, {
     method: 'post',
     headers: {

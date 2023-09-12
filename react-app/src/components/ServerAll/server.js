@@ -16,6 +16,9 @@ function Server(){
   const serversArr = Object.values(servers)
   const [currServer, setCurrServer] = useState(null)
   const [currChannel, setCurrChannel] = useState(null)
+  const [message, setMessage] = useState(null)
+  const [validationErrors, setValidationErrors] = useState([])
+  const errors = []
   let server_selected = false
 
   if (server) server_selected = true
@@ -31,6 +34,21 @@ function Server(){
   useEffect(() => {
     dispatch(getChannel(currChannel))
   }, [currChannel])
+
+  const messageSubmit = async (e) => {
+    e.preventDefault()
+
+    if (!message) return
+    if (message.length > 2000) errors.push("Message must be less than 2000 characters!")
+
+    const data = {
+      channel_id: channel.id,
+      owner_id: user.id,
+      message: message
+    }
+
+    let newMessage = await dispatch(createMessage(data))
+  }
 
   return (
     <div className='container'>
@@ -54,6 +72,7 @@ function Server(){
             )
           })}
         </div>
+        <div>
         <div className="channel_messages">
           {channel && channel.messages.map((message) => {
             return (
@@ -62,6 +81,21 @@ function Server(){
               </li>
             )
           })}
+        </div>
+        <div className ="message_input">
+          <form onSubmit={messageSubmit}>
+            <div className='message_box'>
+              <label htmlFor="message" className='message'>Message</label>
+              <input
+              className='input_area'
+              name="message"
+              type='textarea'
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              />
+            </div>
+          </form>
+        </div>
         </div>
         <p></p>
       </div>
