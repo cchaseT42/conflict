@@ -36,9 +36,9 @@ export const createMessage = (payload) => async dispatch => {
   return newMessage
 }
 
-let initialStat = {}
+let initialState = {}
 
-const messages = (state = initialStat, action) => {
+const messages = (state = initialState, action) => {
   switch(action.type){
   }
 }
