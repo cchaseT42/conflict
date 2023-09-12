@@ -4,6 +4,8 @@ import { Link } from "react-router-dom"
 import { getServers } from "../../store/servers"
 import { getServer } from "../../store/server"
 import { getChannel } from "../../store/channel"
+import { getMessages } from "../../store/message"
+import { deleteMessage } from "../../store/message"
 import { createMessage } from "../../store/message"
 
 function Server(){
@@ -16,7 +18,7 @@ function Server(){
   const serversArr = Object.values(servers)
   const [currServer, setCurrServer] = useState(null)
   const [currChannel, setCurrChannel] = useState(null)
-  const [message, setMessage] = useState(null)
+  const [message, setMessage] = useState("")
   const [validationErrors, setValidationErrors] = useState([])
   const errors = []
   let server_selected = false
@@ -29,6 +31,8 @@ function Server(){
 
   useEffect(() => {
     dispatch(getServer(currServer))
+    setCurrChannel(null)
+    dispatch(getChannel(currChannel))
   }, [currServer])
 
   useEffect(() => {
@@ -48,6 +52,12 @@ function Server(){
     }
 
     let newMessage = await dispatch(createMessage(data))
+    await dispatch(getChannel(currChannel))
+  }
+
+  const messageDelete = async (id) => {
+    let deletedMessage = await dispatch(deleteMessage(id))
+    await dispatch(getChannel(currChannel))
   }
 
   return (
@@ -77,13 +87,14 @@ function Server(){
           {channel && channel.messages.map((message) => {
             return (
               <li key={message.id}>
+                {user.id == message.owner_id ? <button id="delete_msg_button"onClick={e => messageDelete(message.id)}>Delete</button>: null}
                 <p>{message.user.username}: {message.message}</p>
               </li>
             )
           })}
         </div>
         <div className ="message_input">
-          <form onSubmit={messageSubmit}>
+          {currChannel && <form onSubmit={messageSubmit}>
             <div className='message_box'>
               <label htmlFor="message" className='message'>Message</label>
               <input
@@ -94,7 +105,7 @@ function Server(){
               onChange={(e) => setMessage(e.target.value)}
               />
             </div>
-          </form>
+          </form>}
         </div>
         </div>
         <p></p>

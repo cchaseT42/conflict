@@ -26,3 +26,11 @@ def create_message():
         return new_message.to_dict()
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@message_routes.route('/<int:id>', methods=['DELETE'])
+def delete_message(id):
+    message = Message.query.get(id)
+
+    db.session.delete(message)
+    db.session.commit()
+    return 'Successfully deleted'
