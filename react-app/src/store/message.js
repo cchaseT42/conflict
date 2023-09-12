@@ -1,6 +1,14 @@
+const LOAD = 'message/loadMessage'
 const CREATE = 'message/createMessage'
 const DELETE = 'message/deleteMessage'
 const UPDATE = 'message/updateMessage'
+
+const load = (message) => {
+  return {
+    type: LOAD,
+    message
+  }
+}
 
 const create = (message) => {
   return {
@@ -23,7 +31,15 @@ const update = (message) => {
   }
 }
 
-export const createMessage = (payload) => async dispatch => {
+export const getMessages = (channel_id) => async dispatch => {
+  const response = await fetch(`/api/messages/${channel_id}`)
+  if (response.ok) {
+    const messages = await response.json()
+    dispatch(load(messages))
+  }
+}
+
+export const createMessage = (data) => async dispatch => {
   const response = await fetch(`/api/messages/create`, {
     method: 'post',
     headers: {
@@ -36,10 +52,38 @@ export const createMessage = (payload) => async dispatch => {
   return newMessage
 }
 
+export const deleteMessage = (id) => async dispatch => {
+  const response = await fetch(`/api/messages/${id}`, {
+    method: 'delete'
+  })
+  if (response.ok){
+    dispatch(destroy(id))
+  }
+}
+
 let initialState = {}
 
 const messages = (state = initialState, action) => {
   switch(action.type){
+  case LOAD: {
+    const newState = {}
+    let messagesArr = action.messages
+    messagesArr.forEach(message => {
+      newState[message.id] = message
+    })
+  }
+  case CREATE: {
+
+  }
+  case UPDATE: {
+
+  }
+  case DELETE: {
+    const newState = {...state}
+    delete newState[action.message.id]
+    return newState
+  }
+  default: return state
   }
 }
 

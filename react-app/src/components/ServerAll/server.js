@@ -4,6 +4,8 @@ import { Link } from "react-router-dom"
 import { getServers } from "../../store/servers"
 import { getServer } from "../../store/server"
 import { getChannel } from "../../store/channel"
+import { getMessages } from "../../store/message"
+import { deleteMessage } from "../../store/message"
 import { createMessage } from "../../store/message"
 
 function Server(){
@@ -16,6 +18,9 @@ function Server(){
   const serversArr = Object.values(servers)
   const [currServer, setCurrServer] = useState(null)
   const [currChannel, setCurrChannel] = useState(null)
+  const [message, setMessage] = useState("")
+  const [validationErrors, setValidationErrors] = useState([])
+  const errors = []
   let server_selected = false
 
   if (server) server_selected = true
@@ -26,11 +31,34 @@ function Server(){
 
   useEffect(() => {
     dispatch(getServer(currServer))
+    setCurrChannel(null)
+    dispatch(getChannel(currChannel))
   }, [currServer])
 
   useEffect(() => {
     dispatch(getChannel(currChannel))
   }, [currChannel])
+
+  const messageSubmit = async (e) => {
+    e.preventDefault()
+
+    if (!message) return
+    if (message.length > 2000) errors.push("Message must be less than 2000 characters!")
+
+    const data = {
+      channel_id: channel.id,
+      owner_id: user.id,
+      message: message
+    }
+
+    let newMessage = await dispatch(createMessage(data))
+    await dispatch(getChannel(currChannel))
+  }
+
+  const messageDelete = async (id) => {
+    let deletedMessage = await dispatch(deleteMessage(id))
+    await dispatch(getChannel(currChannel))
+  }
 
   return (
     <div className='container'>
@@ -54,14 +82,31 @@ function Server(){
             )
           })}
         </div>
+        <div>
         <div className="channel_messages">
           {channel && channel.messages.map((message) => {
             return (
               <li key={message.id}>
+                {user.id == message.owner_id ? <button id="delete_msg_button"onClick={e => messageDelete(message.id)}>Delete</button>: null}
                 <p>{message.user.username}: {message.message}</p>
               </li>
             )
           })}
+        </div>
+        <div className ="message_input">
+          {currChannel && <form onSubmit={messageSubmit}>
+            <div className='message_box'>
+              <label htmlFor="message" className='message'>Message</label>
+              <input
+              className='input_area'
+              name="message"
+              type='textarea'
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              />
+            </div>
+          </form>}
+        </div>
         </div>
         <p></p>
       </div>
