@@ -49,3 +49,12 @@ def update_server(id):
         db.session.commit()
         return server.to_dict(), 201
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@server_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_server(id):
+    server = Server.query.get(id)
+
+    db.session.delete(server)
+    db.session.commit()
+    return 'Successfully deleted'
