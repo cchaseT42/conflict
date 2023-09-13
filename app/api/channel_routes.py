@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
 from app.models import Server, Channel, db
+from app.forms import ChannelForm
 from .auth_routes import validation_errors_to_error_messages
 
 channel_routes = Blueprint('channel', __name__)
@@ -10,3 +11,19 @@ channel_routes = Blueprint('channel', __name__)
 def channel(id):
   channel = Channel.query.get(id)
   return channel.to_dict(), 200
+
+@channel_routes.route('/create', methods=['POST'])
+@login_required
+def create_channel():
+  form = ChannelForm()
+  form['csrf_token'].data = request.cookies['csrf_token']
+
+  if form.validate_on_submit():
+    new_channel = Channel()
+    form.populate_obj(new_channel)
+
+    db.session.add(new_channel)
+    db.session.commit()
+    return new_channel.to_dict()
+
+  return {'errors': validation_errors_to_error_messages(form.errors)}, 401
