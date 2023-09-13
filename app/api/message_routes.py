@@ -28,6 +28,7 @@ def create_message():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @message_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
 def delete_message(id):
     message = Message.query.get(id)
 
