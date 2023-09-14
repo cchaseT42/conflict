@@ -3,10 +3,8 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { getServers } from "../../store/servers"
 import { getServer } from "../../store/server"
-import { getChannel } from "../../store/channel"
-import { getMessages } from "../../store/message"
-import { deleteMessage } from "../../store/message"
-import { createMessage } from "../../store/message"
+import { getChannel, updateChannel, createChannel, deleteChannel } from "../../store/channel"
+import { getMessages, deleteMessage, createMessage } from "../../store/message"
 
 function Server(){
 
@@ -38,6 +36,11 @@ function Server(){
   useEffect(() => {
     dispatch(getChannel(currChannel))
   }, [currChannel])
+
+  const channelCreate = async (e) => {
+    e.preventDefault();
+
+  }
 
   const messageSubmit = async (e) => {
     e.preventDefault()
