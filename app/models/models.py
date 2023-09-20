@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
     pfp_url = db.Column(db.String(255), nullable=True)
 
     messages = db.relationship("Message", back_populates="user")
+    servers = db.relationship("Member", back_populates='user')
 
     @property
     def password(self):
@@ -71,6 +72,11 @@ class Server(db.Model):
             'channels': [channel.to_dict() for channel in self.channels],
         }
 
+    def members_to_dict(self):
+        return {
+            'members': [member.to_dict() for member in self.members]
+        }
+
 class Member(db.Model):
     __tablename__ = 'members'
 
@@ -86,6 +92,7 @@ class Member(db.Model):
         add_prefix_for_prod('servers.id')), nullable=False)
 
     server = db.relationship("Server", back_populates="members")
+    user = db.relationship("User", back_populates="servers")
 
     def to_dict(self):
         return {
@@ -93,6 +100,10 @@ class Member(db.Model):
             'user_id': self.user_id,
             'server_id': self.server_id,
             'servers': self.server.to_dict()
+        }
+    def server_members_dict(self):
+        return {
+            'members': self.user.to_dict()
         }
 
 class Channel(db.Model):

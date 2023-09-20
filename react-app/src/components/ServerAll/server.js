@@ -5,6 +5,7 @@ import { getServers } from "../../store/servers"
 import { getServer } from "../../store/server"
 import { getChannel, updateChannel, createChannel, deleteChannel } from "../../store/channel"
 import { getMessages, deleteMessage, createMessage } from "../../store/message"
+import { getMembers } from "../../store/members"
 
 function Server(){
 
@@ -13,6 +14,8 @@ function Server(){
   const servers = useSelector(state => state.servers)
   let server = useSelector(state => state.server[0] || null)
   let channel = useSelector(state => state.channel[0] || null)
+  let members = useSelector(state => state.members || null)
+  console.log(members)
   const serversArr = Object.values(servers)
   const [currServer, setCurrServer] = useState(null)
   const [currChannel, setCurrChannel] = useState(null)
@@ -31,16 +34,12 @@ function Server(){
     dispatch(getServer(currServer))
     setCurrChannel(null)
     dispatch(getChannel(currChannel))
+    dispatch(getMembers(currServer))
   }, [currServer])
 
   useEffect(() => {
     dispatch(getChannel(currChannel))
   }, [currChannel])
-
-  const channelCreate = async (e) => {
-    e.preventDefault();
-
-  }
 
   const messageSubmit = async (e) => {
     e.preventDefault()
