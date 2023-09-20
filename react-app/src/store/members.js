@@ -8,7 +8,7 @@ const load = (members) => {
 }
 
 export const getMembers = (id) => async dispatch => {
-  const response = await fetch(`/api/members/${id}`)
+  const response = await fetch(`/api/members/users/${id}`)
   if (response.ok) {
     const members = await response.json()
     dispatch(load(members))

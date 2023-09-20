@@ -15,6 +15,7 @@ function Server(){
   let server = useSelector(state => state.server[0] || null)
   let channel = useSelector(state => state.channel[0] || null)
   let members = useSelector(state => state.members || null)
+  console.log(members)
   const serversArr = Object.values(servers)
   const [currServer, setCurrServer] = useState(null)
   const [currChannel, setCurrChannel] = useState(null)
@@ -33,7 +34,7 @@ function Server(){
     dispatch(getServer(currServer))
     setCurrChannel(null)
     dispatch(getChannel(currChannel))
-    // dispatch(getMembers(currServer))
+    dispatch(getMembers(currServer))
   }, [currServer])
 
   useEffect(() => {

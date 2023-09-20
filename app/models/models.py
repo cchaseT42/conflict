@@ -101,10 +101,10 @@ class Member(db.Model):
             'server_id': self.server_id,
             'servers': self.server.to_dict()
         }
-    # def server_members_dict(self):
-    #     return {
-    #         'members':[user.to_dict() for user in self.users]
-    #     }
+    def server_members_dict(self):
+        return {
+            'members': self.user.to_dict()
+        }
 
 class Channel(db.Model):
     __tablename__ = 'channels'
