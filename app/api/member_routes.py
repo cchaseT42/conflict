@@ -9,3 +9,10 @@ member_routes = Blueprint("members", __name__)
 def joinedServers(user_id):
     joined = db.session.query(Member).filter_by(user_id = int(user_id))
     return {'joined_servers': [server.to_dict() for server in joined]}, 200
+
+@member_routes.route('/users/<int:server_id>')
+def serverMembers(server_id):
+    print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+    members = db.session.query(Member).filter_by(server_id = int(server_id))
+    print(members, "AASDASASDFGGHASDFGASDFGSDFHADSGFSDFGKHAJWSERGFIUYOSAEGRIBUSYGFI8UYDGFIE8UYGFISEYGRBIEFYGRBUIYGR")
+    return {'members': [user.server_members_dict() for user in members]}
