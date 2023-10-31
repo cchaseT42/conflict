@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, Redirect, useHistory } from "react-router-dom"
 import { getServers } from "../../store/servers"
 import { getServer } from "../../store/server"
 import { getChannel, updateChannel, createChannel, deleteChannel } from "../../store/channel"
@@ -10,7 +10,10 @@ import { getMembers } from "../../store/members"
 function Server(){
 
   const dispatch = useDispatch()
-  const user = useSelector(state => state.session.user)
+  const history = useHistory()
+  const user = useSelector((state) => state.session.user || null);
+
+
   const servers = useSelector(state => state.servers)
   let server = useSelector(state => state.server[0] || null)
   let channel = useSelector(state => state.channel[0] || null)
@@ -28,7 +31,7 @@ function Server(){
   if (server) server_selected = true
 
   useEffect(() => {
-    dispatch(getServers(user.id))
+    user && dispatch(getServers(user.id))
   }, [dispatch])
 
   useEffect(() => {
@@ -62,6 +65,11 @@ function Server(){
     let deletedMessage = await dispatch(deleteMessage(id))
     await dispatch(getChannel(currChannel))
   }
+
+  if (!user){
+    return <Redirect to="/" />;
+  }
+  //If no user is logged in, they will be redirected to the log in page.
 
   return (
     <div className='container'>
