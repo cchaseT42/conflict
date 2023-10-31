@@ -15,8 +15,8 @@ function Server(){
   let server = useSelector(state => state.server[0] || null)
   let channel = useSelector(state => state.channel[0] || null)
   let members = useSelector(state => state.members[0] || null)
-  const membersArr = Object.values(members)
-  console.log(membersArr)
+  let membersArr
+  if(members) membersArr = Object.values(members)
   const serversArr = Object.values(servers)
   const [currServer, setCurrServer] = useState(null)
   const [currChannel, setCurrChannel] = useState(null)
@@ -113,7 +113,7 @@ function Server(){
         </div>
         <p></p>
       </div>
-      <div className='user_list'>
+      {membersArr && <div className='user_list'>
         <p>Members-{membersArr[0].length}</p>
         {membersArr[0].map((members) => {
           return (
@@ -122,10 +122,8 @@ function Server(){
             </li>
           )
         })}
-        <div>
-        </div>
       </div>
-    </div>
+      }</div>
   )
 }
 
