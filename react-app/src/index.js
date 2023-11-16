@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
-import { ModalProvider, Modal } from "./context/Modal";
+import { ModalProvider, Modal } from "./context/Modal2";
 import configureStore from "./store";
 import * as sessionActions from "./store/session";
 import App from "./App";
@@ -24,9 +24,11 @@ function Root() {
 	return (
 		<ModalProvider>
 			<Provider store={store}>
-				<BrowserRouter>
-					<App />
-					<Modal />
+				<BrowserRouter>\
+					<ModalProvider>
+						<App />
+					</ModalProvider>
+					{/* <Modal /> */}
 				</BrowserRouter>
 			</Provider>
 		</ModalProvider>
