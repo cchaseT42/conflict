@@ -66,7 +66,7 @@ export const updateServer = (id, data) => async dispatch => {
 }
 
 export const deleteServer = (id) => async dispatch => {
-  const response = await fetch(`api/server/${id}`, {
+  const response = await fetch(`api/servers/${id}`, {
     method: 'delete'
   })
     if (response.ok){
