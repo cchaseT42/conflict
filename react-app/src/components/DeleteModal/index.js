@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '../../context/Modal2';
 import DeleteOwnedServer from '../ServerDelete';
 
-function DeleteButtonModal() {
+function DeleteButtonModal({serverId}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -10,7 +10,7 @@ function DeleteButtonModal() {
       <button onClick={() => setShowModal(true)}>D</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <DeleteOwnedServer setShowModal={setShowModal}/>
+          <DeleteOwnedServer setShowModal={setShowModal} serverId={serverId}/>
         </Modal>
       )}
     </>

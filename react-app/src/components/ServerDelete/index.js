@@ -3,7 +3,8 @@ import { useHistory, useEffect } from 'react'
 import { deleteServer} from "../../store/server";
 import { getServers } from "../../store/servers"
 
-function DeleteOwnedServer({setShowModal}, serverId){
+function DeleteOwnedServer({setShowModal, serverId}){
+  console.log(serverId, "serverId")
   const dispatch = useDispatch()
   const user = useSelector(state => state.session.user);
 
