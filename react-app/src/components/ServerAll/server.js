@@ -83,7 +83,7 @@ function Server(){
                 <p>{server.servers.img_url}</p>
               </li>
               {console.log(server.servers.owner_id, user.id)}
-              {server.servers.owner_id === user.id && <DeleteButtonModal/>}
+              {server.servers.owner_id === user.id && <DeleteButtonModal serverId={server.server_id}/>}
               </div>
             )
           })}
