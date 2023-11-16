@@ -6,6 +6,7 @@ import { getServer } from "../../store/server"
 import { getChannel, updateChannel, createChannel, deleteChannel } from "../../store/channel"
 import { getMessages, deleteMessage, createMessage } from "../../store/message"
 import { getMembers } from "../../store/members"
+import DeleteButtonModal from "../DeleteModal"
 
 function Server(){
 
@@ -77,9 +78,13 @@ function Server(){
         <div className='servers'>
           {serversArr.map((server) => {
             return (
-              <li key={servers.id} onClick={(e) => setCurrServer(server.server_id)}>
+              <div>
+              <li key={server.id} onClick={(e) => setCurrServer(server.server_id)}>
                 <p>{server.servers.img_url}</p>
               </li>
+              {console.log(server.servers.owner_id, user.id)}
+              {server.servers.owner_id === user.id && <DeleteButtonModal/>}
+              </div>
             )
           })}
         </div>
