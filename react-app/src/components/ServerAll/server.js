@@ -4,7 +4,7 @@ import { Link, Redirect, useHistory } from "react-router-dom"
 import { getServers } from "../../store/servers"
 import { getServer } from "../../store/server"
 import { getChannel, updateChannel, createChannel, deleteChannel } from "../../store/channel"
-import { getMessages, deleteMessage, createMessage } from "../../store/message"
+import { getMessages, deleteMessage, createMessage, updateMessage } from "../../store/message"
 import { getMembers } from "../../store/members"
 
 function Server(){
@@ -24,6 +24,7 @@ function Server(){
   const [currServer, setCurrServer] = useState(null)
   const [currChannel, setCurrChannel] = useState(null)
   const [message, setMessage] = useState("")
+  const [newMessage, setNewMessage] = useState("")
   const [validationErrors, setValidationErrors] = useState([])
   const errors = []
   let server_selected = false
@@ -59,6 +60,19 @@ function Server(){
 
     let newMessage = await dispatch(createMessage(data))
     await dispatch(getChannel(currChannel))
+  }
+
+  const messageUpdate = async (id) => {
+    console.log(id)
+    if (message.length > 2000) errors.push("Message must be less than 2000 characters!")
+
+    const payload = {
+      message: newMessage,
+      channel_id: channel.id,
+      owner_id: user.id
+    }
+
+    let updatedMessage = await dispatch(updateMessage(payload, id))
   }
 
   const messageDelete = async (id) => {
@@ -98,8 +112,18 @@ function Server(){
           {channel && channel.messages.map((message) => {
             return (
               <li key={message.id}>
-                {user.id == message.owner_id ? <button id="delete_msg_button"onClick={e => messageDelete(message.id)}>Delete</button>: null}
                 <p>{message.user.username}: {message.message}</p>
+                {user.id == message.owner_id ? <button id="delete_msg_button"onClick={e => messageDelete(message.id)}>Delete</button>: null}
+                {user.id == message.owner_id ? <form onSubmit={e => messageUpdate(message.id)}>
+                  <label htmlFor="updateMessage" className='updateMessage'>Update</label>
+                  <input
+                  className='input_area'
+                  name="message"
+                  type="textarea"
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  />
+                </form>: null}
               </li>
             )
           })}

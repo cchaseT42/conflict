@@ -52,6 +52,19 @@ export const createMessage = (data) => async dispatch => {
   return newMessage
 }
 
+export const updateMessage = (data, id) => async dispatch => {
+  const response = await fetch(`/api/messages/${id}`, {
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  const updatedMessage = await response.json()
+  dispatch(update(updatedMessage))
+  return updatedMessage
+}
+
 export const deleteMessage = (id) => async dispatch => {
   const response = await fetch(`/api/messages/${id}`, {
     method: 'delete'
