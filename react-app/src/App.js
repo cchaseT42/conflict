@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import Server from "./components/ServerAll/server";
 import CreateServer from "./components/ServerCreate";
 import UpdateServer from "./components/ServerUpdate";
+import CreateChannel from "./components/CreateChannel"
 
 function App() {
   const dispatch = useDispatch();
@@ -30,8 +31,11 @@ function App() {
           <Route path='/servers'>
             <Server/>
           </Route>
-          <Route path='/create'>
+          <Route path='/servercreate'>
             <CreateServer/>
+          </Route>
+          <Route path ='/channelcreate'>
+            <CreateChannel/>
           </Route>
           <Route path='/update'>
             <UpdateServer/>

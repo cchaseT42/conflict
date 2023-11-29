@@ -58,7 +58,7 @@ class Server(db.Model):
         add_prefix_for_prod('users.id')), nullable=False)
 
     members = db.relationship("Member", back_populates="server")
-    channels = db.relationship("Channel", back_populates="server")
+    channels = db.relationship("Channel", back_populates="server", cascade="all, delete-orphan")
 
 
 
@@ -119,7 +119,7 @@ class Channel(db.Model):
     server_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('servers.id')), nullable=False)
 
-    messages = db.relationship("Message", back_populates="channels")
+    messages = db.relationship("Message", back_populates="channels", cascade="all, delete-orphan")
 
     server = db.relationship("Server", back_populates="channels")
 
