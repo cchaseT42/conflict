@@ -92,6 +92,11 @@ function Server(){
     await dispatch(getChannel(currChannel))
   }
 
+  const channelDelete = async (id) => {
+    let deletedChannel = await dispatch(deleteChannel(id))
+    await dispatch(getServer(currServer))
+  }
+
   if (!user){
     return <Redirect to="/" />;
   }
@@ -115,6 +120,7 @@ function Server(){
             return (
               <li key={channel.id} onClick={(e) => setCurrChannel(channel.id)}>
                 <p>{channel.name}</p>
+                {user.id == server.owner_id ? <button id="delete_chnl_button" onClick={e => channelDelete(channel.id)}>Delete</button>: null}
                 {user.id == server.owner_id ? <form onSubmit={e => channelUpdate(channel.id)}>
                   <label htmlFor="updateChannel" className='updateChannel'>Update</label>
                   <input
