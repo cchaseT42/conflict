@@ -31,9 +31,10 @@ def create_channel():
 @channel_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_channel(id):
+
   channel = Channel.query.get(id)
 
-  form = ChannelForm
+  form = ChannelForm()
   form['csrf_token'].data = request.cookies['csrf_token']
 
   if form.validate_on_submit():

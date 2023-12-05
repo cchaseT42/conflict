@@ -25,6 +25,7 @@ function Server(){
   const [currChannel, setCurrChannel] = useState(null)
   const [message, setMessage] = useState("")
   const [newMessage, setNewMessage] = useState("")
+  const [updatedChannel, setUpdatedChannel] = useState("")
   const [validationErrors, setValidationErrors] = useState([])
   const errors = []
   let server_selected = false
@@ -75,9 +76,25 @@ function Server(){
     let updatedMessage = await dispatch(updateMessage(payload, id))
   }
 
+  const channelUpdate = async (id) => {
+    if(updatedChannel.length > 30) errors.push("Channel name must be less than 2000 characters!")
+
+    const payload = {
+      name: updatedChannel,
+      server_id: server.id
+    }
+
+    let updatedServer = await dispatch(updateChannel(payload, id))
+  }
+
   const messageDelete = async (id) => {
     let deletedMessage = await dispatch(deleteMessage(id))
     await dispatch(getChannel(currChannel))
+  }
+
+  const channelDelete = async (id) => {
+    let deletedChannel = await dispatch(deleteChannel(id))
+    await dispatch(getServer(currServer))
   }
 
   if (!user){
@@ -102,7 +119,18 @@ function Server(){
           {server_selected && server.channels.map((channel) => {
             return (
               <li key={channel.id} onClick={(e) => setCurrChannel(channel.id)}>
-                <p>{channel.name}, {channel.id}</p>
+                <p>{channel.name}</p>
+                {user.id == server.owner_id ? <button id="delete_chnl_button" onClick={e => channelDelete(channel.id)}>Delete</button>: null}
+                {user.id == server.owner_id ? <form onSubmit={e => channelUpdate(channel.id)}>
+                  <label htmlFor="updateChannel" className='updateChannel'>Update</label>
+                  <input
+                  className='input_area'
+                  name="message"
+                  type="text"
+                  value={updatedChannel}
+                  onChange={(e) => setUpdatedChannel(e.target.value)}
+                  />
+                </form>: null}
               </li>
             )
           })}

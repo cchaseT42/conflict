@@ -52,7 +52,7 @@ export const createChannel = (data) => async dispatch => {
   return newChannel
 }
 
-export const updateChannel = (id, data) => async dispatch => {
+export const updateChannel = (data, id) => async dispatch => {
   const response = await fetch(`/api/channel/${id}`, {
     method: 'put',
     headers: {
