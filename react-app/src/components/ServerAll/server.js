@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { Link, Redirect, useHistory } from "react-router-dom"
 import { getServers } from "../../store/servers"
-import { getServer } from "../../store/server"
+import { getServer, deleteServer } from "../../store/server"
 import { getChannel, updateChannel, createChannel, deleteChannel } from "../../store/channel"
 import { getMessages, deleteMessage, createMessage, updateMessage } from "../../store/message"
 import { getMembers } from "../../store/members"
@@ -97,6 +97,10 @@ function Server(){
     await dispatch(getServer(currServer))
   }
 
+  const serverDelete = async (id) => {
+    let deletedServer = await dispatch(deleteServer(id))
+    await dispatch(getServers(user.id))
+  }
   if (!user){
     return <Redirect to="/" />;
   }
@@ -110,6 +114,8 @@ function Server(){
             return (
               <li key={servers.id} onClick={(e) => setCurrServer(server.server_id)}>
                 <p>{server.servers.img_url}</p>
+                <p>{server.servers.owner_id}hi</p>
+                {user.id == server.servers.owner_id ? <button id="delete_serv_button" onClick={e => serverDelete(server.server_id)}>Delete</button>: null}
               </li>
             )
           })}
