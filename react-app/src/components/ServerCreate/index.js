@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useState } from "react"
 import { createServer } from "../../store/server"
-function CreateServer(){
+
+function CreateNewServer({setShowModal}){
   const dispatch = useDispatch()
   const user = useSelector(state => state.session.user)
 
@@ -25,6 +26,7 @@ function CreateServer(){
     }
 
     let newServer = await dispatch(createServer(payload))
+    setShowModal(false)
 
   }
 
@@ -64,4 +66,4 @@ function CreateServer(){
   )
 }
 
-export default CreateServer
+export default CreateNewServer

@@ -6,7 +6,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import Server from "./components/ServerAll/server";
-import CreateServer from "./components/ServerCreate";
+// import CreateServer from "./components/ServerCreate";
 import UpdateServer from "./components/ServerUpdate";
 import CreateChannel from "./components/CreateChannel"
 
@@ -18,9 +18,6 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
-      <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
         <Switch>
           <Route path="/login" >
             <LoginFormPage />
@@ -31,9 +28,9 @@ function App() {
           <Route path='/servers'>
             <Server/>
           </Route>
-          <Route path='/servercreate'>
+          {/* <Route path='/servercreate'>
             <CreateServer/>
-          </Route>
+          </Route> */}
           <Route path ='/channelcreate'>
             <CreateChannel/>
           </Route>
@@ -44,8 +41,6 @@ function App() {
             <LoginFormPage/>
           </Route>
         </Switch>
-      )}
-    </>
   );
 }
 

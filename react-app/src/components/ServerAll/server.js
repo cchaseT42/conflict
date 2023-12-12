@@ -6,6 +6,7 @@ import { getServer, deleteServer } from "../../store/server"
 import { getChannel, updateChannel, createChannel, deleteChannel } from "../../store/channel"
 import { getMessages, deleteMessage, createMessage, updateMessage } from "../../store/message"
 import { getMembers } from "../../store/members"
+import CreateServerModal from "../CreateServerModal/CreateServerModal"
 
 function Server(){
 
@@ -109,6 +110,7 @@ function Server(){
   return (
     <div className='container'>
       <div className='vertical_display'>
+        <CreateServerModal/>
         <div className='servers'>
           {serversArr.map((server) => {
             return (
