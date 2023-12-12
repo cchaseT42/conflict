@@ -57,7 +57,7 @@ class Server(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('users.id')), nullable=False)
 
-    members = db.relationship("Member", back_populates="server")
+    members = db.relationship("Member", back_populates="server", cascade="all, delete-orphan")
     channels = db.relationship("Channel", back_populates="server", cascade="all, delete-orphan")
 
 
